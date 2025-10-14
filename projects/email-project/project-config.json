@@ -1,0 +1,12 @@
+{
+  "projectName": "email-project",
+  "projectHome": "/opt/hop/config/projects/email-project",
+  "configFilename": "project-config.json",
+  "variables": {
+    "SMTP_SERVER": "smtp-mail.outlook.com",
+    "SMTP_PORT": "587",
+    "EMAIL_USER": "alessandra.guedes@outlook.com",
+    "EMAIL_PASSWORD": "Elisabeth29",
+    "EMAIL_RECIPIENT": "alessandra.guedes@e-core.com"
+  }
+}
