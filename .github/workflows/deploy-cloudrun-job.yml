@@ -1,0 +1,86 @@
+name: Deploy to Cloud Run Job
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: "arquitetura-liderancas"
+  REGION: "us-central1"
+  REPOSITORY: "hop-repository"
+  IMAGE_NAME: "apache-hop"
+  JOB_NAME: "apache-hop-job"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        workload_identity_provider: "projects/768485260256/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
+        service_account: "ci-cd-deployment-arquitetu-851@arquitetura-liderancas.iam.gserviceaccount.com"
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Configure Docker for Artifact Registry
+      run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+
+    - name: Build Docker image
+      run: |
+        docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+        docker tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+                   ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest
+
+    - name: Push Docker image to Artifact Registry
+      run: |
+        docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest
+
+    - name: Deploy to Cloud Run Job
+      run: |
+        gcloud run jobs replace --region=${{ env.REGION }} - <<EOF
+        apiVersion: run.googleapis.com/v1
+        kind: Job
+        metadata:
+          name: ${{ env.JOB_NAME }}
+          namespace: ${{ env.PROJECT_ID }}
+        spec:
+          template:
+            spec:
+              template:
+                spec:
+                  containers:
+                  - image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+                    env:
+                    - name: GOOGLE_CLOUD_PROJECT
+                      value: ${{ env.PROJECT_ID }}
+                    - name: GOOGLE_SERVICE_ACCOUNT_EMAIL
+                      value: arquitetura-liderancas-homolog@arquitetura-liderancas.iam.gserviceaccount.com
+                    resources:
+                      limits:
+                        cpu: "2"
+                        memory: "4Gi"
+                  restartPolicy: OnFailure
+                  taskCount: 1
+                  parallelism: 1
+                  taskTimeoutSeconds: 3600
+        EOF
+
+    - name: Verify deployment
+      run: |
+        echo "✅ Cloud Run Job deployed successfully!"
+        echo "Job name: ${{ env.JOB_NAME }}"
+        echo "Image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+        
+        # Show job details
+        gcloud run jobs describe ${{ env.JOB_NAME }} --region=${{ env.REGION }} --format="value(metadata.name,spec.template.spec.template.spec.containers[0].image)"

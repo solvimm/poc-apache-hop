@@ -1,0 +1,8 @@
+{
+  "name": "local",
+  "description": "Local pipeline run configuration",
+  "configurationVariables": [],
+  "engineRunConfiguration": {
+    "Local": {}
+  }
+}

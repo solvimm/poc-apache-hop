@@ -1,0 +1,10 @@
+{
+  "metadataBaseFolder" : "/files/metadata",
+  "unitTestsBasePath" : "/files",
+  "dataSetsCsvFolder" : "/files/datasets",
+  "enforcingExecutionInHome" : true,
+  "parentProjectName" : "default",
+  "config" : {
+    "variables" : [ ]
+  }
+}
