@@ -1,0 +1,18 @@
+{
+  "engineRunConfiguration": {
+    "BeamDirectPipelineEngine": {
+      "tempLocation": "file:///var/folders/8s/x23d_wys3nd0zs_l71jfn5qr0000gp/T/",
+      "streamingHopTransformsBufferSize": "",
+      "fatJar": "",
+      "number_of_workers": "2",
+      "userAgent": "Hop",
+      "streamingHopTransformsFlushInterval": ""
+    }
+  },
+  "defaultSelection": false,
+  "configurationVariables": [],
+  "name": "direct_runner",
+  "description": "",
+  "dataProfile": "",
+  "executionInfoLocationName": ""
+}

@@ -145,7 +145,7 @@ generate_configuration() {
     
     # Set up Hop environment variables
     export HOP_LOG_LEVEL="${HOP_LOG_LEVEL:-Basic}"
-    export HOP_FILE_PATH="${HOP_FILE_PATH:-${PROJECT_HOME}/pipelines/pipeline1.hpl}"
+    export HOP_FILE_PATH="${HOP_FILE_PATH:-${PROJECT_HOME}/pipelines/filename.hwf}"
     export HOP_PROJECT_FOLDER="${HOP_PROJECT_FOLDER:-${PROJECT_HOME}}"
     export HOP_SHARED_JDBC_FOLDERS="${HOP_SHARED_JDBC_FOLDERS:-${PROJECT_HOME}/drivers}"
     export HOP_PROJECT_NAME="${HOP_PROJECT_NAME:-docker_teste}"

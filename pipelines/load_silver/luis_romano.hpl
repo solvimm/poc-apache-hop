@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pipeline>
+  <info>
+    <name>luis_romano</name>
+    <name_sync_with_filename>Y</name_sync_with_filename>
+    <description/>
+    <extended_description/>
+    <pipeline_version/>
+    <pipeline_type>Normal</pipeline_type>
+    <parameters>
+    </parameters>
+    <capture_transform_performance>N</capture_transform_performance>
+    <transform_performance_capturing_delay>1000</transform_performance_capturing_delay>
+    <transform_performance_capturing_size_limit>100</transform_performance_capturing_size_limit>
+    <created_user>-</created_user>
+    <created_date>2025/10/20 15:20:10.108</created_date>
+    <modified_user>-</modified_user>
+    <modified_date>2025/10/20 15:20:10.108</modified_date>
+  </info>
+  <notepads>
+  </notepads>
+  <order>
+    <hop>
+      <from>Data grid</from>
+      <to>Add sequence</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add sequence</from>
+      <to>JavaScript</to>
+      <enabled>Y</enabled>
+    </hop>
+  </order>
+  <transform>
+    <name>Add sequence</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <seqname>SEQ_</seqname>
+    <start_at>1</start_at>
+    <use_counter>Y</use_counter>
+    <use_database>N</use_database>
+    <valuename>count</valuename>
+    <attributes/>
+    <GUI>
+      <xloc>304</xloc>
+      <yloc>256</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Data grid</name>
+    <type>DataGrid</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <data>
+      <line>
+        <item>teste</item>
+        <item/>
+      </line>
+      <line>
+        <item>teste</item>
+        <item>150</item>
+      </line>
+      <line>
+        <item>teste</item>
+        <item/>
+      </line>
+      <line>
+        <item>teste</item>
+        <item>300</item>
+      </line>
+      <line>
+        <item>teste</item>
+        <item>400</item>
+      </line>
+      <line>
+        <item>teste</item>
+        <item/>
+      </line>
+      <line>
+        <item>teste</item>
+        <item>500</item>
+      </line>
+    </data>
+    <fields>
+      <field>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <name>tipo_operacao</name>
+        <type>String</type>
+      </field>
+      <field>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <name>VLR_UNIT_PERIODO</name>
+        <type>Number</type>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>176</xloc>
+      <yloc>256</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>JavaScript</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+if(count == 1){
+    VLR_UNIT_PERIODO_X = 0; 
+    count_x = count;
+}
+
+if (VLR_UNIT_PERIODO) {
+   VLR_UNIT_PERIODO_X = VLR_UNIT_PERIODO;
+    count_x = count;
+}
+
+if (!VLR_UNIT_PERIODO &amp;&amp; count > count_x) {
+    VLR_UNIT_PERIODO = VLR_UNIT_PERIODO_X;
+}</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>count_x</name>
+        <rename>count_x</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>VLR_UNIT_PERIODO</name>
+        <rename>VLR_UNIT_PERIODO</rename>
+        <type>Number</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>VLR_UNIT_PERIODO_X</name>
+        <rename>VLR_UNIT_PERIODO_X</rename>
+        <type>Number</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>256</yloc>
+    </GUI>
+  </transform>
+  <transform_error_handling>
+  </transform_error_handling>
+  <attributes/>
+</pipeline>

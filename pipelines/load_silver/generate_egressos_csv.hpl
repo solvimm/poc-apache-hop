@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pipeline>
+  <info>
+    <name>generate_egressos_csv</name>
+    <name_sync_with_filename>Y</name_sync_with_filename>
+    <description/>
+    <extended_description/>
+    <pipeline_version/>
+    <pipeline_type>Normal</pipeline_type>
+    <parameters>
+    </parameters>
+    <capture_transform_performance>N</capture_transform_performance>
+    <transform_performance_capturing_delay>1000</transform_performance_capturing_delay>
+    <transform_performance_capturing_size_limit>100</transform_performance_capturing_size_limit>
+    <created_user>-</created_user>
+    <created_date>2025/10/15 12:24:16.962</created_date>
+    <modified_user>-</modified_user>
+    <modified_date>2025/10/15 12:24:16.962</modified_date>
+  </info>
+  <notepads>
+  </notepads>
+  <order>
+    <hop>
+      <from>Add value fields changing sequence</from>
+      <to>JavaScript 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add value fields changing sequence 2</from>
+      <to>Filter rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows</from>
+      <to>Dummy (do nothing) 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows</from>
+      <to>Dummy (do nothing) 2 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>JavaScript 2</from>
+      <to>Sort rows 2 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 2 2</from>
+      <to>Add value fields changing sequence 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>egressos</from>
+      <to>Add value fields changing sequence</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Dummy (do nothing) 2</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Table output</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Text file output</to>
+      <enabled>Y</enabled>
+    </hop>
+  </order>
+  <transform>
+    <name>Add value fields changing sequence</name>
+    <type>FieldsChangeSequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id_pessoa</name>
+      </field>
+    </fields>
+    <increment>1</increment>
+    <resultfieldName>count</resultfieldName>
+    <start>1</start>
+    <attributes/>
+    <GUI>
+      <xloc>208</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Add value fields changing sequence 2</name>
+    <type>FieldsChangeSequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id_pessoa</name>
+      </field>
+    </fields>
+    <increment>1</increment>
+    <resultfieldName>count2</resultfieldName>
+    <start>1</start>
+    <attributes/>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Dummy (do nothing) 2</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <GUI>
+      <xloc>992</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Dummy (do nothing) 2 2</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <GUI>
+      <xloc>848</xloc>
+      <yloc>176</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Filter rows</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compare>
+      <condition>
+        <conditions>
+</conditions>
+        <function>=</function>
+        <leftvalue>count2</leftvalue>
+        <negated>N</negated>
+        <operator>-</operator>
+        <value>
+          <isnull>N</isnull>
+          <length>-1</length>
+          <mask>####0;-####0</mask>
+          <name>constant</name>
+          <precision>0</precision>
+          <text>1</text>
+          <type>Integer</type>
+        </value>
+      </condition>
+    </compare>
+    <send_false_to>Dummy (do nothing) 2 2</send_false_to>
+    <send_true_to>Dummy (do nothing) 2</send_true_to>
+    <attributes/>
+    <GUI>
+      <xloc>848</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>JavaScript 2</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+if (count == 1) {
+   id_pessoa_x = id_pessoa;
+   nome_x = nome;
+   url_linkedin_x = url_linkedin;
+   url_linkedin_id_x = url_linkedin_id;
+   empregado_x = empregado;
+   atualizacao_x = atualizacao;
+   observacoes_x = observacoes;
+   len_nome_x = nome.length;
+}
+
+// Garante o nome mais completo
+len_nome = nome.length 
+
+if(len_nome > len_nome_x){
+    nome_x = nome;
+    len_nome_x = len_nome;
+}
+
+if(len_nome &lt; len_nome_x){
+    nome = nome_x;
+    len_nome = len_nome_x;
+}
+// Coloca com iniciais maiúsculas
+excecoes = ["de", "da", "do", "das", "dos", "e"];
+
+nome = nome
+  .toLowerCase()
+  .split(" ")
+  .map((palavra, i) => 
+    excecoes.includes(palavra) &amp;&amp; i !== 0
+      ? palavra
+      : palavra.charAt(0).toUpperCase() + palavra.slice(1)
+  )
+  .join(" ");
+
+// 1️⃣ Remove emojis
+nome = nome.replace(/([\uD83C-\uDBFF][\uDC00-\uDFFF]|\uFE0F|\u200D)/g, "");
+
+// 2️⃣ Remove texto entre parênteses (normais ou cheios)
+nome = nome.replace(/[（(].*?[）)]/g, "");
+
+// 3️⃣ Remove espaços extras
+nome = nome.trim().replace(/\s+/g, " ");
+
+// 4️⃣ Coloca iniciais maiúsculas, exceto conectores comuns
+nome = nome
+  .toLowerCase()
+  .split(" ")
+  .map((palavra, i) => {
+    const excecoes = ["de", "da", "do", "das", "dos", "e"];
+    return excecoes.includes(palavra) &amp;&amp; i !== 0
+      ? palavra
+      : palavra.charAt(0).toUpperCase() + palavra.slice(1);
+  })
+  .join(" ");                         // remove espaços extras
+// fim
+
+
+if(url_linkedin.length > url_linkedin_x.length){
+    url_linkedin_x = url_linkedin
+}else{
+    url_linkedin = url_linkedin_x
+}
+
+// Trata Linkedin
+if(url_linkedin &amp;&amp; url_linkedin != 'N/I' &amp;&amp; url_linkedin != ''){
+  url = url_linkedin.trim();
+  // Remove protocolo duplicado e coloca tudo em lowercase
+  url = url.replace(/^https?:\/\//i, '').toLowerCase();
+  // Remove qualquer coisa antes de linkedin.com
+  liIndex = url.lastIndexOf('linkedin.com');
+  if (liIndex != -1) {
+    url = url.slice(liIndex + 'linkedin.com'.length);
+  }
+
+  // Remove query params e barras extras
+  url = url.split(/[\/?&amp;]/).filter(Boolean); // cria array de segmentos
+ 
+  id = null;
+  // Procura o segmento "in" se existir
+  inPos = url.indexOf('in');
+  if (inPos !== -1 &amp;&amp; inPos &lt; url.length - 1) {
+    id = url[inPos + 1]; // pega o segmento logo após "in"
+  } else {
+    // Se não tiver "in", pega o último segmento
+    id = url[url.length - 1];
+  }
+  url_linkedin = `https://www.linkedin.com/in/${id}`;
+  url_linkedin_id = id;
+}else{
+  url_linkedin = 'N/I';
+  url_linkedin_id = 'N/I';
+}
+
+
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>id_pessoa_x</name>
+        <rename>id_pessoa_x</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>nome_x</name>
+        <rename>nome_x</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>url_linkedin_x</name>
+        <rename>url_linkedin_x</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>url_linkedin_id_x</name>
+        <rename>url_linkedin_id_x</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>empregado_x</name>
+        <rename>empregado_x</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>atualizacao_x</name>
+        <rename>atualizacao_x</rename>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>observacoes_x</name>
+        <rename>observacoes_x</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>len_nome_x</name>
+        <rename>len_nome_x</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>len_nome</name>
+        <rename>len_nome</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>nome</name>
+        <rename>nome</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>url_linkedin</name>
+        <rename>url_linkedin</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>url_linkedin_id</name>
+        <rename>url_linkedin_id</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>384</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <length>-2</length>
+        <name>id_pessoa</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>nome</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>url_linkedin</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>url_linkedin_id</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>empregado</name>
+        <precision>-2</precision>
+        <rename>empregado_atualmente</rename>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>atualizacao</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>observacoes</name>
+        <precision>-2</precision>
+      </field>
+      <meta>
+        <conversion_mask>yyyy-MM-dd</conversion_mask>
+        <date_format_lenient>N</date_format_lenient>
+        <length>-2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>atualizacao</name>
+        <precision>-2</precision>
+        <rename>atualizacao</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Date</type>
+      </meta>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>992</xloc>
+      <yloc>176</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Sort rows 2 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compress>N</compress>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>id_pessoa</name>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>count</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <sort_prefix>out</sort_prefix>
+    <sort_size>1000000</sort_size>
+    <unique_rows>N</unique_rows>
+    <attributes/>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Table output</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <commit>1000</commit>
+    <connection>BigQuery</connection>
+    <fields>
+</fields>
+    <ignore_errors>N</ignore_errors>
+    <only_when_have_rows>N</only_when_have_rows>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <return_keys>N</return_keys>
+    <schema>prata_egressos</schema>
+    <specify_fields>N</specify_fields>
+    <table>silver_dm_egressos</table>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_in_table>Y</tablename_in_table>
+    <truncate>N</truncate>
+    <use_batch>Y</use_batch>
+    <attributes/>
+    <GUI>
+      <xloc>992</xloc>
+      <yloc>272</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Text file output</name>
+    <type>TextFileOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <schema_definition/>
+    <separator>;</separator>
+    <enclosure>"</enclosure>
+    <enclosure_forced>Y</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>N</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding>UTF-8</encoding>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name>${PROJECT_HOME}/temp/egressos_unicos</name>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>csv</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery/>
+    </file>
+    <fields>
+      <field>
+        <name>id_pessoa</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <roundingType>half_even</roundingType>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>nome</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <roundingType>half_even</roundingType>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>url_linkedin</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <roundingType>half_even</roundingType>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>url_linkedin_id</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <roundingType>half_even</roundingType>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>empregado_atualmente</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <roundingType>half_even</roundingType>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>atualizacao</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <roundingType>unnecessary</roundingType>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>observacoes</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>teste</nullif>
+        <trim_type>none</trim_type>
+        <roundingType>unnecessary</roundingType>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>1120</xloc>
+      <yloc>176</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>egressos</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>BigQuery</connection>
+    <execute_each_row>N</execute_each_row>
+    <limit>0</limit>
+    <sql>select distinct * from (
+select distinct
+   id_pessoa,
+   nome,
+   case when url_linkedin = '' or url_linkedin is null then 'N/I' else TRIM(UPPER(REGEXP_REPLACE(url_linkedin, r'[\r\n]+', ' ')))  end as url_linkedin,
+   case when url_linkedin_id = '' or url_linkedin_id is null then 'N/I' else url_linkedin_id end as url_linkedin_id,
+   case when empregado = '' or empregado is null then 'N/I' else empregado end as empregado,
+   CAST(PARSE_DATE('%d/%m/%Y', atualizacao) as date) as atualizacao,
+   observacoes
+from
+   `bronze_egressos.egressos_consolidado`
+union distinct
+select distinct
+   le.id_pessoa,
+   le.full_name as nome,
+   case when le.linkedin_url = '' or le.linkedin_url is null then 'N/I' else TRIM(UPPER(REGEXP_REPLACE(le.linkedin_url, r'[\r\n]+', ' ')))  end as url_linkedin,
+   case when le.linkedin_url = '' or le.linkedin_url is null then 'N/I' else le.linkedin_url end as url_linkedin_id,
+   case when experience.data_fim is null then 'Empregado' else 'Desempregado' end as empregado,
+   case when experience.data_fim is null then CURRENT_DATE() else  experience.data_fim end as  atualizacao,
+   '' as observacoes
+FROM `bronze_egressos.linkedin_enriquecidos` AS le
+LEFT JOIN UNNEST(le.experiences) AS experience
+where le.id_pessoa is not null) a
+order by id_pessoa, atualizacao;</sql>
+    <variables_active>N</variables_active>
+    <attributes/>
+    <GUI>
+      <xloc>48</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform_error_handling>
+  </transform_error_handling>
+  <attributes/>
+</pipeline>

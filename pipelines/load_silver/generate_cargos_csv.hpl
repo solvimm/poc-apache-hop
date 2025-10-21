@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pipeline>
+  <info>
+    <name>generate_cargos_csv</name>
+    <name_sync_with_filename>Y</name_sync_with_filename>
+    <description/>
+    <extended_description/>
+    <pipeline_version/>
+    <pipeline_type>Normal</pipeline_type>
+    <parameters>
+    </parameters>
+    <capture_transform_performance>N</capture_transform_performance>
+    <transform_performance_capturing_delay>1000</transform_performance_capturing_delay>
+    <transform_performance_capturing_size_limit>100</transform_performance_capturing_size_limit>
+    <created_user>-</created_user>
+    <created_date>2025/10/09 16:33:23.834</created_date>
+    <modified_user>-</modified_user>
+    <modified_date>2025/10/09 16:33:23.834</modified_date>
+  </info>
+  <notepads>
+    <notepad>
+      <backgroundcolorblue>210</backgroundcolorblue>
+      <backgroundcolorgreen>136</backgroundcolorgreen>
+      <backgroundcolorred>15</backgroundcolorred>
+      <bordercolorblue>250</bordercolorblue>
+      <bordercolorgreen>231</bordercolorgreen>
+      <bordercolorred>200</bordercolorred>
+      <fontbold>N</fontbold>
+      <fontcolorblue>250</fontcolorblue>
+      <fontcolorgreen>231</fontcolorgreen>
+      <fontcolorred>200</fontcolorred>
+      <fontitalic>N</fontitalic>
+      <fontname>.AppleSystemUIFont</fontname>
+      <fontsize>13</fontsize>
+      <height>26</height>
+      <xloc>603</xloc>
+      <yloc>505</yloc>
+      <note>zqso2654</note>
+      <width>72</width>
+    </notepad>
+  </notepads>
+  <order>
+    <hop>
+      <from>cargos</from>
+      <to>JavaScript</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>JavaScript</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Unique rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows</from>
+      <to>String operations</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>String operations</from>
+      <to>Text file output</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>String operations</from>
+      <to>Table output</to>
+      <enabled>N</enabled>
+    </hop>
+  </order>
+  <transform>
+    <name>JavaScript</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+if (cargoch == 'N/I' &amp;&amp; cargo != 'N/I') {
+    cargo_harmonizado = cargo
+}
+if (cargo &amp;&amp; /estagiari[ao]/i.test(cargo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""))) {
+  cargo_harmonizado = "ESTAGIÁRIO";
+}
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>208</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <length>-2</length>
+        <name>cargo_harmonizado</name>
+        <precision>-2</precision>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>368</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>String operations</name>
+    <type>StringOperations</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>cargo_harmonizado</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>592</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Table output</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <commit>1000</commit>
+    <connection>BigQuery</connection>
+    <fields>
+</fields>
+    <ignore_errors>N</ignore_errors>
+    <only_when_have_rows>N</only_when_have_rows>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <return_keys>N</return_keys>
+    <schema>prata_egressos</schema>
+    <specify_fields>N</specify_fields>
+    <table>silver_dm_egressos</table>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_in_table>Y</tablename_in_table>
+    <truncate>N</truncate>
+    <use_batch>Y</use_batch>
+    <attributes/>
+    <GUI>
+      <xloc>608</xloc>
+      <yloc>192</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Text file output</name>
+    <type>TextFileOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <schema_definition/>
+    <separator>;</separator>
+    <enclosure>"</enclosure>
+    <enclosure_forced>Y</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>N</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding>UTF-8</encoding>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name>${PROJECT_HOME}/temp/cargos_unicos</name>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>csv</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery/>
+    </file>
+    <fields>
+      <field>
+        <name>cargo_harmonizado</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <roundingType>unnecessary</roundingType>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>720</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Unique rows</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <fields>
+      <field>
+        <case_insensitive>N</case_insensitive>
+        <name>cargo_harmonizado</name>
+      </field>
+    </fields>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <attributes/>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>cargos</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>BigQuery</connection>
+    <execute_each_row>N</execute_each_row>
+    <limit>0</limit>
+    <sql>SELECT * FROM (
+SELECT DISTINCT
+    upper(case when ec.cargo is null or ec.cargo = '' then 'N/I' else REGEXP_REPLACE(ec.cargo, r'\r|\n', '') end)  as cargo,
+    upper(case when ch.cargo is null or ch.cargo = '' then 'N/I' else REGEXP_REPLACE(ch.cargo, r'\r|\n', '') end)  as cargoch, 
+    upper(case when ch.cargo_harmonizado is null or ch.cargo_harmonizado = '' then 'N/I' else REGEXP_REPLACE(ch.cargo_harmonizado, r'\r|\n', '') end) as cargo_harmonizado
+FROM 
+   `bronze_egressos.egressos_consolidado` ec
+    LEFT OUTER JOIN `bronze_egressos.cargo_cargo_harmonizado`  ch on
+        ec.cargo = ch.cargo
+UNION DISTINCT 
+SELECT DISTINCT
+    upper(case when experience.cargo is null or  experience.cargo = '' then 'N/I' else REGEXP_REPLACE(experience.cargo, r'\r|\n', '') end)  as cargo,
+    upper(case when ch.cargo is null or ch.cargo = '' then 'N/I' else REGEXP_REPLACE(ch.cargo, r'\r|\n', '') end)  as cargoch, 
+    upper(case when ch.cargo_harmonizado is null or ch.cargo_harmonizado = '' then 'N/I' else REGEXP_REPLACE(ch.cargo_harmonizado, r'\r|\n', '') end) as cargo_harmonizado
+FROM 
+    `bronze_egressos.linkedin_enriquecidos` AS le
+     LEFT OUTER JOIN UNNEST(le.experiences) AS experience
+     LEFT OUTER JOIN `bronze_egressos.cargo_cargo_harmonizado`  ch on
+         experience.cargo = ch.cargo
+UNION DISTINCT 
+SELECT DISTINCT
+    upper(case when da.cargo_data_source is null or da.cargo_data_source = '' then 'N/I' else REGEXP_REPLACE(da.cargo_data_source, r'\r|\n', '') end)  as cargo,
+    upper(case when ch.cargo is null or ch.cargo = '' then 'N/I' else REGEXP_REPLACE(ch.cargo, r'\r|\n', '') end)  as cargoch, 
+    upper(case when ch.cargo_harmonizado is null or ch.cargo_harmonizado = '' then 'N/I' else REGEXP_REPLACE(ch.cargo_harmonizado, r'\r|\n', '') end) as cargo_harmonizado
+FROM 
+    `bronze_egressos.view_dados_abertos` da
+    LEFT OUTER JOIN `bronze_egressos.cargo_cargo_harmonizado`  ch on
+        da.cargo_data_source = ch.cargo
+) A ORDER BY cargo_harmonizado</sql>
+    <variables_active>N</variables_active>
+    <attributes/>
+    <GUI>
+      <xloc>96</xloc>
+      <yloc>80</yloc>
+    </GUI>
+  </transform>
+  <transform_error_handling>
+  </transform_error_handling>
+  <attributes/>
+</pipeline>

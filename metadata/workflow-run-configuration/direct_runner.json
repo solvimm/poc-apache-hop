@@ -1,0 +1,13 @@
+{
+  "engineRunConfiguration": {
+    "Local": {
+      "runConfiguration": "local"
+    }
+  },
+  "defaultSelection": false,
+  "configurationVariables": [],
+  "name": "direct_runner",
+  "description": "Direct runner configuration for workflows",
+  "dataProfile": "",
+  "executionInfoLocationName": ""
+}
